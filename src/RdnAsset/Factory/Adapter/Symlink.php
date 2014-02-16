@@ -9,7 +9,7 @@ class Symlink extends AbstractFactory
 {
 	protected function create()
 	{
-		$config = $this->config('rdn_asset_adapters', 'configs', 'Symlink');
-		return new Adapter\Symlink($config['directory']);
+		$directory = $this->config('rdn_asset', 'target_path');
+		return new Adapter\Symlink($directory);
 	}
 }
