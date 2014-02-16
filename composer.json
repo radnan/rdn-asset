@@ -1,0 +1,19 @@
+{
+	"name": "radnan/rdn-asset",
+	"description": "Zend Framework 2 simple asset publishing module",
+	"keywords": ["zf2", "zend", "asset", "publish"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "radnan",
+			"email": "rafiadnan47@gmail.com"
+		}
+	],
+	"require": {
+	},
+	"autoload": {
+		"psr-0": {
+			"RdnAsset\\": "src/"
+		}
+	}
+}
