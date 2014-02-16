@@ -28,7 +28,7 @@ class Symlink implements AdapterInterface
 		if (!is_dir($directory))
 		{
 			ErrorHandler::start();
-			mkdir(dirname($target), 0770, true);
+			mkdir($directory, 0770, true);
 			ErrorHandler::stop(true);
 		}
 	}
@@ -62,7 +62,7 @@ class Symlink implements AdapterInterface
 
 		foreach ($filenames as $filename)
 		{
-			$filepath = $directory .'/'. $filename;
+			$filepath = $this->directory .'/'. $filename;
 			$source = readlink($filepath);
 
 			if (!file_exists($source))
