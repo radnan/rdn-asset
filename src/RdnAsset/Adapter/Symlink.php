@@ -5,6 +5,9 @@ namespace RdnAsset\Adapter;
 use RuntimeException;
 use Zend\Stdlib\ErrorHandler;
 
+/**
+ * Publish assets using very simple symlinks.
+ */
 class Symlink implements AdapterInterface
 {
 	protected $directory;

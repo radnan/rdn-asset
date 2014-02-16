@@ -31,6 +31,9 @@ class Publisher implements PublisherInterface
 		$this->adapter = $adapter;
 	}
 
+	/**
+	 * @return AdapterInterface
+	 */
 	public function getAdapter()
 	{
 		return $this->adapter;

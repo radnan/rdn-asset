@@ -15,8 +15,14 @@ use Zend\ModuleManager\ModuleManager;
  */
 class Publish extends AbstractCommand
 {
+	/**
+	 * @var ModuleManager
+	 */
 	protected $modules;
 
+	/**
+	 * @var PublisherInterface
+	 */
 	protected $publisher;
 
 	public function __construct(ModuleManager $modules, PublisherInterface $publisher)
@@ -39,6 +45,12 @@ class Publish extends AbstractCommand
 
 	}
 
+	/**
+	 * Iterate over each module and publish its assets.
+	 *
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 */
 	protected function doPublish(InputInterface $input, OutputInterface $output)
 	{
 		$output->writeln('<info>Publishing module assets</info>');
@@ -55,7 +67,6 @@ class Publish extends AbstractCommand
 		}
 
 		$inflector = new CamelCaseToDash;
-
 		foreach ($moduleNames as $moduleName)
 		{
 			$source = $this->getPublicPath($moduleName);
@@ -78,6 +89,16 @@ class Publish extends AbstractCommand
 		}
 	}
 
+	/**
+	 * Get the public path to the assets for a given module.
+	 *
+	 * We assume assets are stored in the <module-root>/public/ directory.
+	 * If not, the module can implement the <code>getPublicPath()</code>
+	 * method that returns the actual public path.
+	 *
+	 * @param string $moduleName
+	 * @return bool|string
+	 */
 	protected function getPublicPath($moduleName)
 	{
 		$module = $this->modules->getModule($moduleName);
