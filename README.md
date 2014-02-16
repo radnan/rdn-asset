@@ -43,16 +43,16 @@ Now, you can include assets from this module by using the path `/modules/<module
 
 ## Asset source
 
-By default, we assume assets are located in the `<module-root>/public/` directory. If this is not true for a module, you can implement the `getPublicPath()` method on it which returns the actual public path to its assets:
+By default, we assume assets are located in the `<module-root>/public/` directory. If this is not true for a module, you can implement the `getPublicPath()` method on it which should return the actual public path to its assets:
 
 ~~~php
-namespace Foo;
+namespace App;
 
 class Module
 {
 	public function getPublicPath()
 	{
-		return 'module/foo/assets';
+		return 'module/app/public-foo';
 	}
 }
 ~~~
