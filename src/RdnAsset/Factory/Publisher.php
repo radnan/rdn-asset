@@ -9,6 +9,9 @@ class Publisher extends AbstractFactory
 {
 	protected function create()
 	{
-		return new RdnAsset\Publisher;
+		$adapters = $this->service('RdnAsset\Adapter\AdapterManager');
+		$adapter = $adapters->get($this->config('rdn_asset', 'adapter'));
+
+		return new RdnAsset\Publisher($adapter);
 	}
 }

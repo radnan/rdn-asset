@@ -32,9 +32,40 @@ class Symlink implements AdapterInterface
 
 	public function publish($source, $basename)
 	{
+		$target = $this->directory .'/'. $basename;
+
+		// Let's see if we can do a relative path
+		if (strpos($source, getcwd()) === 0)
+		{
+			$source = str_repeat('../', count(explode('/', $target)) - 1) . substr($source, strlen(getcwd()) + 1);
+		}
+
+		if (file_exists($target))
+		{
+			if (!is_link($target) || readlink($target) == $source)
+			{
+				return;
+			}
+
+			unlink($target);
+		}
+
+		symlink($source, $target);
 	}
 
 	public function prune()
 	{
+		$filenames = scandir($this->directory);
+
+		foreach ($filenames as $filename)
+		{
+			$filepath = $directory .'/'. $filename;
+			$source = readlink($filepath);
+
+			if (!file_exists($source))
+			{
+				unlink($filepath);
+			}
+		}
 	}
 }

@@ -2,9 +2,19 @@
 
 return array(
 	'rdn_asset' => array(
+		'adapter' => 'Symlink',
 	),
 
 	'rdn_asset_adapters' => array(
+		'factories' => array(
+			'Symlink' => 'RdnAsset\Factory\Adapter\Symlink',
+		),
+
+		'configs' => array(
+			'Symlink' => array(
+				'directory' => 'public/modules',
+			),
+		),
 	),
 
 	'rdn_console' => array(
