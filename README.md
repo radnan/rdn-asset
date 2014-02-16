@@ -43,7 +43,7 @@ Now, you can include assets from this module by using the path `/modules/<module
 
 ## Asset source
 
-By default, we assume assets are located in the `<module-root>/public/` directory. If this is not true for a module, you can implement the `getPublicPath()` method on it which should return the actual public path to its assets:
+By default, we assume assets are located in the `<module-root>/public/` directory. If this is not true for a module, you can implement the `getPublicPath()` method on it which should return the actual path to its assets:
 
 ~~~php
 namespace App;
@@ -71,4 +71,12 @@ return array(
 		'target_path' => 'public/modules-foo',
 	),
 );
+~~~
+
+## Asset cleanup
+
+You can remove assets that no longer exist by using the `--prune` option:
+
+~~~bash
+$ vendor/bin/console asset:publish --prune
 ~~~
