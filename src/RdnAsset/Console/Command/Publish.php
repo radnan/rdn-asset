@@ -5,6 +5,7 @@ namespace RdnAsset\Console\Command;
 use RdnAsset\PublisherInterface;
 use RdnConsole\Command\AbstractCommand;
 use ReflectionClass;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Filter\Word\CamelCaseToDash;
@@ -98,10 +99,16 @@ class Publish extends AbstractCommand
 	 *
 	 * @param string $moduleName
 	 * @return bool|string
+	 * @throws RuntimeException
 	 */
 	protected function getPublicPath($moduleName)
 	{
 		$module = $this->modules->getModule($moduleName);
+		if (!$module)
+		{
+			throw new RuntimeException("Module does not exist ($moduleName)");
+		}
+
 		if (method_exists($module, 'getPublicPath'))
 		{
 			$public = rtrim($module->getPublicPath(), '/');
