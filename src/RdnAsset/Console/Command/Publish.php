@@ -104,7 +104,7 @@ class Publish extends AbstractCommand
 		$module = $this->modules->getModule($moduleName);
 		if (method_exists($module, 'getPublicPath'))
 		{
-			$public = $module->getPublicPath();
+			$public = rtrim($module->getPublicPath(), '/');
 		}
 		elseif (method_exists($module, 'getRootPath'))
 		{
