@@ -70,6 +70,11 @@ class Symlink implements AdapterInterface
 			$filepath = $this->directory .'/'. $filename;
 			$source = readlink($filepath);
 
+			if (strpos($source, '../') === 0)
+			{
+				$source = $this->directory .'/'. $source;
+			}
+
 			if (!file_exists($source))
 			{
 				unlink($filepath);
