@@ -62,6 +62,11 @@ class Symlink implements AdapterInterface
 
 		foreach ($filenames as $filename)
 		{
+			if ($filename == '.' || $filename == '..')
+			{
+				continue;
+			}
+
 			$filepath = $this->directory .'/'. $filename;
 			$source = readlink($filepath);
 
