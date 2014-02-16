@@ -4,8 +4,10 @@ namespace RdnAsset\Console\Command;
 
 use RdnAsset\PublisherInterface;
 use RdnConsole\Command\AbstractCommand;
+use ReflectionClass;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zend\Filter\Word\CamelCaseToDash;
 use Zend\ModuleManager\ModuleManager;
 
 /**
@@ -25,5 +27,84 @@ class Publish extends AbstractCommand
 
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
+		if ($input->getOption('prune'))
+		{
+			$output->writeln("<info>Cleaning up module assets</info>");
+			$this->publisher->prune();
+		}
+		else
+		{
+			$this->doPublish($input, $output);
+		}
+
+	}
+
+	protected function doPublish(InputInterface $input, OutputInterface $output)
+	{
+		$output->writeln('<info>Publishing module assets</info>');
+		$nothing = true;
+
+		$moduleName = $input->getOption('module');
+		if ($moduleName)
+		{
+			$moduleNames = array($moduleName);
+		}
+		else
+		{
+			$moduleNames = $this->modules->getModules();
+		}
+
+		$inflector = new CamelCaseToDash;
+
+		foreach ($moduleNames as $moduleName)
+		{
+			$source = $this->getPublicPath($moduleName);
+			if ($source === false)
+			{
+				continue;
+			}
+
+			$output->writeln(" - <comment>{$moduleName}</comment>");
+
+			$basename = strtolower($inflector->filter($moduleName));
+			$this->publisher->publish($source, $basename);
+
+			$nothing = false;
+		}
+
+		if ($nothing)
+		{
+			$output->writeln('Nothing to publish');
+		}
+	}
+
+	protected function getPublicPath($moduleName)
+	{
+		$module = $this->modules->getModule($moduleName);
+		if (method_exists($module, 'getPublicPath'))
+		{
+			$public = $module->getPublicPath();
+		}
+		elseif (method_exists($module, 'getRootPath'))
+		{
+			$public = $module->getRootPath() .'/public';
+		}
+		elseif (method_exists($module, 'getPath'))
+		{
+			$public = $module->getPath() .'/../../public';
+		}
+		else
+		{
+			$ref = new ReflectionClass($module);
+			$path = dirname($ref->getFileName());
+			$public = realpath($path .'/../../public');
+		}
+
+		if (is_dir($public))
+		{
+			return $public;
+		}
+
+		return false;
 	}
 }
