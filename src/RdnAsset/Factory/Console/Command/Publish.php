@@ -17,13 +17,13 @@ class Publish extends AbstractCommandFactory
 				'module',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'The module to use for this command.'
+				'Only publish the assets for the given module.'
 			)
 			->addOption(
 				'prune',
 				null,
 				InputOption::VALUE_NONE,
-				'Remove items from the destination directory that no longer exist.'
+				'Remove assets that no longer exist.'
 			)
 		;
 	}
