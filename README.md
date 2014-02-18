@@ -37,7 +37,7 @@ This will publish the module's assets to your project root's `public/modules/` d
 Now, you can include assets from this module by using the path `/modules/<module-name>/<asset-name>`. For example, in your view file you could do the following:
 
 ~~~php
-<?php $this->headStyle()
+<?php $this->headLink()
 	->appendStylesheet($this->basePath('/modules/rdn-asset/css/foo.css')) ?>
 ~~~
 
